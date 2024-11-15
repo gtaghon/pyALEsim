@@ -1,7 +1,7 @@
 # pyALEsim
 *E. Coli* ALE simulator using keras mutation rate schedulers. Install requirements.txt.
 
-Example run with 10,000 cells for three days:
+Example run with 8M cells (~100µL @ OD0.1) for three days:
 
 ![Example run](./example.png)
 
