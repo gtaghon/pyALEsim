@@ -1,10 +1,11 @@
-#################################
-# ALE Simulaton with variable   #
-# mutation rate scheduling      #
-#                               #
-# Geoff Taghon                  #
-# NIST-MML / Nov 2024           #
-#################################
+#########################################
+# ALE Simulaton with variable           #
+# mutation rate scheduling              #
+#                                       #
+# Geoff Taghon                          #
+# NIST-MML / Nov 2024                   #
+# Inspired by doi: 10.1128/AEM.03115-16 #
+#########################################
 
 import numpy as np
 from dataclasses import dataclass
@@ -66,13 +67,12 @@ class PopulationTracker:
 class ALESimulator:
     def __init__(
             self,
-            initial_growth_rate: float = 0.7,  # Initial growth rate in h^-1
+            initial_growth_rate: float = 1.0,  # Initial growth rate in h^-1
             max_growth_rate: float = 2.0,      # Maximum achievable growth rate
             population_size: int = 1000,
-            initial_mutation_rate: float = 1e-3,
-            deleterious_mutation_rate: float = 1e-8,
+            initial_mutation_rate: float = 1e-6,
             passage_size: float = 0.1,
-            time_steps: int = 50,
+            time_steps: int = 72,
             scheduler_type: str = 'constant',
             scheduler_kwargs: dict = None,
             name: str = 'Default'  # Added name for plotting
@@ -101,7 +101,7 @@ class ALESimulator:
                 scheduler_kwargs
             )
             
-            self.deleterious_mutation_rate = deleterious_mutation_rate
+            self.deleterious_mutation_rate = 0.0002    # (doi: 10.1038/381694a0)
             
             # Population tracking
             self.population = PopulationTracker()
@@ -307,7 +307,6 @@ def compare_schedulers(
             max_growth_rate=max_growth_rate,
             population_size=population_size,
             initial_mutation_rate=initial_mutation_rate,
-            deleterious_mutation_rate=initial_mutation_rate*0.1,
             time_steps=time_steps,
             scheduler_type=scheduler_type,
             scheduler_kwargs=kwargs,
@@ -366,14 +365,14 @@ def compare_schedulers(
 
 # Get arguments from terminal
 max_growth_rate = float(sys.argv[1])
-population_size = int(sys.argv[2])
+population_size = int(sys.argv[2])  # 8000000 = ~100uL cells at OD 0.1
 time_steps = int(sys.argv[3])
 
 if __name__ == "__main__":
     results = compare_schedulers(
         initial_growth_rate=1.0,
         max_growth_rate=max_growth_rate,
-        population_size=population_size, # ~ 10uL of cells at OD 0.1
-        initial_mutation_rate=1e-5,
+        population_size=population_size,
+        initial_mutation_rate=1e-6,
         time_steps=time_steps
     )
