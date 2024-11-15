@@ -365,9 +365,9 @@ def compare_schedulers(
     return results
 
 # Get arguments from terminal
-max_growth_rate = sys.argv[1]
-population_size = sys.argv[2]
-time_steps = sys.argv[3]
+max_growth_rate = float(sys.argv[1])
+population_size = int(sys.argv[2])
+time_steps = int(sys.argv[3])
 
 if __name__ == "__main__":
     results = compare_schedulers(
